@@ -17,7 +17,7 @@ st.set_page_config(
     layout="wide"
 )
 
-BACKEND_URL = "http://localhost:8000"
+BACKEND_URL = "https://ai-stress-test-backend.onrender.com"
 
 # 2. Initialize Session State
 if "messages" not in st.session_state:
