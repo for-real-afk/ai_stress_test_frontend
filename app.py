@@ -2,13 +2,9 @@ import streamlit as st
 import requests
 import pandas as pd
 import plotly.express as px
-import sys
-from pathlib import Path
 
-ROOT_DIR = Path(__file__).resolve().parent.parent
 
-sys.path.append(str(ROOT_DIR))
-from backend.analytics import load_metrics
+
 
 # 1. Page config MUST be the first Streamlit command
 st.set_page_config(
@@ -24,7 +20,25 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "latencies" not in st.session_state:
     st.session_state.latencies = []
+def load_metrics():
 
+    try:
+
+        response = requests.get(
+            f"{API_URL}/analytics"
+        )
+
+        if response.status_code == 200:
+
+            return pd.DataFrame(
+                response.json()
+            )
+
+    except Exception:
+        pass
+
+    return pd.DataFrame()
+metrics = pd.DataFrame()
 st.title("🧠 AI Personality Stress Test Lab")
 
 # 3. Global Dashboard (Wrapped in an expander to keep the chat interface clean)
